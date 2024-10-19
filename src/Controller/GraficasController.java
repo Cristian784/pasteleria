@@ -19,13 +19,13 @@ public class GraficasController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         try {
-            cargarDatosEnPieChart();
+           // cargarDatosEnPieChart();
         } catch (Exception e) {
             e.printStackTrace();
             // Manejar la excepción según tus necesidades
         }
     }
-
+    
     private void cargarDatosEnPieChart() throws Exception {
         CategoriaVentaDAO categoriaVentaDAO = new CategoriaVentaDAO();
         try {
@@ -39,5 +39,9 @@ public class GraficasController implements Initializable {
             // Manejar la excepción según tus necesidades
         }
     }
+    
+    
+    
+    
 }
 

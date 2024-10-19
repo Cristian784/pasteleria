@@ -6,12 +6,48 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import Model.CategoriaVenta;
 import Model.Pasteles;
 import Model.Ventas; // Asegúrate de importar la clase Venta o el nombre correcto de la clase en tu modelo
 import Factory.ConnectionFactory;
 
 public class VentaDAO {
+	
+	
+	
+	
+	
+	   public List<Ventas> obtenerVentas() throws Exception {
+	        List<Ventas> ventas = new ArrayList<>();
+	        try (Connection connection = ConnectionFactory.getConnection()) {
+	        	String query = "SELECT * " +
+	                    "FROM pasteleria.ventas " +
+	                    "WHERE FechaDeVenta = CURDATE()";
+	            try (PreparedStatement statement = connection.prepareStatement(query);
+	                 ResultSet resultSet = statement.executeQuery()) {
+	                while (resultSet.next()) {
+	                	 int Folio = resultSet.getInt("Folio");
+	                	 int CantidadVendida = resultSet.getInt("CantidadVendida");
+	                	 Float Subtotal = resultSet.getFloat("Subtotal");
+	                	 Float Total = resultSet.getFloat("Total");
+	                    String FechaDeVenta = resultSet.getString("FechaDeVenta");
+	                    String Productos = resultSet.getString("Productos");
+	                    Ventas Venta = new Ventas(Folio,CantidadVendida, Subtotal, Total, FechaDeVenta, Productos );
+	                    ventas.add(Venta);
+	                }
+	            }
+	        }
+	        return ventas;
+	    }
+	
+	
+	
+	
+	
 
 	public Ventas buscarVentaPorNombreProducto(String nombreProducto) throws Exception {
 	    Connection connection = null;
@@ -135,8 +171,38 @@ public class VentaDAO {
 	    return Pasti  ;
 	}
 
-
-
+	public List<Ventas> obtenerVentasDelDiaActual() throws Exception {
+        List<Ventas> ventas = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        
+        try {
+            // Obtener una conexión desde ConnectionFactory
+            connection = ConnectionFactory.getConnection();
+            // Preparar la consulta SQL
+            String query = "SELECT * FROM pasteleria.ventas WHERE FechaDeVenta = CURDATE()";
+            statement = connection.prepareStatement(query);
+            // Ejecutar la consulta y obtener el conjunto de resultados
+            resultSet = statement.executeQuery();
+            // Procesar los resultados y crear objetos Ventas
+            while (resultSet.next()) {
+                int folio = resultSet.getInt("folio");
+                int cantidadVendida = resultSet.getInt("cantidadVendida");
+                float subtotal = resultSet.getFloat("subtotal");
+                float total = resultSet.getFloat("total");
+                String fechaVenta = resultSet.getString("fechaDeVenta");
+                String productos = resultSet.getString("productos");
+                Ventas venta = new Ventas(folio, cantidadVendida, subtotal, total, fechaVenta, productos);
+                ventas.add(venta);
+            }
+        } finally {
+            // Cerrar los recursos
+            ConnectionFactory.close(resultSet, statement, connection);
+        }
+        
+        return ventas;
+    }
 
     // Otros métodos y atributos según sea necesario
 }

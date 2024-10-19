@@ -27,7 +27,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="1360.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SampleController2">
    <children>
-      <Button fx:id="btnCatalogo1" alignment="BOTTOM_CENTER" cache="true" layoutX="1125.0" layoutY="390.0" mnemonicParsing="false" onAction="#openCatalogos" prefHeight="210.0" prefWidth="174.0" style="-fx-background-color: white;" text="Reportes" textFill="#08009e">
+      <Button fx:id="btnReporte" alignment="BOTTOM_CENTER" cache="true" layoutX="1125.0" layoutY="390.0" mnemonicParsing="false" onAction="#openReportes" prefHeight="210.0" prefWidth="174.0" style="-fx-background-color: white;" text="Reportes" textFill="#08009e">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -39,7 +39,7 @@
          <font>
             <Font name="Bodoni MT" size="73.0" />
          </font></Label>
-      <Button fx:id="btnCategoria" alignment="BOTTOM_CENTER" layoutX="47.0" layoutY="183.0" mnemonicParsing="false" onAction="#openCategorias" prefHeight="185.0" prefWidth="191.0" style="-fx-background-color: white;" text="Categorias" textFill="#08009e">
+      <Button fx:id="btnCategoria" alignment="BOTTOM_CENTER" layoutX="47.0" layoutY="183.0" mnemonicParsing="false" onAction="#openWinthree" prefHeight="185.0" prefWidth="191.0" style="-fx-background-color: white;" text="Categorias" textFill="#08009e">
          <font>
             <Font name="Cambria Bold Italic" size="30.0" />
          </font>
@@ -49,35 +49,35 @@
          <effect>
             <Blend />
          </effect></Button>
-      <Button fx:id="btnVentaPastel" alignment="BOTTOM_CENTER" layoutX="38.0" layoutY="394.0" mnemonicParsing="false" onAction="#openVentasPastel" prefHeight="202.0" prefWidth="210.0" style="-fx-background-color: white;" text="Venta Pastel" textFill="#08009e">
+      <Button fx:id="btnVentaPastel" alignment="BOTTOM_CENTER" layoutX="38.0" layoutY="394.0" mnemonicParsing="false" onAction="#openWinOcho" prefHeight="202.0" prefWidth="210.0" style="-fx-background-color: white;" text="Venta Pastel" textFill="#08009e">
          <font>
             <Font name="Cambria Bold Italic" size="30.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="btnVentas" alignment="BOTTOM_CENTER" cache="true" layoutX="1138.0" layoutY="146.0" mnemonicParsing="false" onAction="#openVentas" prefHeight="220.0" prefWidth="135.0" style="-fx-background-color: white;" text="Ventas" textFill="#08009e">
+      <Button fx:id="btnVentas" alignment="BOTTOM_CENTER" cache="true" layoutX="1138.0" layoutY="146.0" mnemonicParsing="false" onAction="#openWinSeven" prefHeight="220.0" prefWidth="135.0" style="-fx-background-color: white;" text="Ventas" textFill="#08009e">
          <font>
             <Font name="Cambria Bold Italic" size="30.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="btnPedidos" alignment="BOTTOM_CENTER" layoutX="890.0" layoutY="172.0" mnemonicParsing="false" onAction="#openPedidos" prefHeight="200.0" prefWidth="168.0" style="-fx-background-color: white;" text="Pedidos" textFill="#08009e">
+      <Button fx:id="btnPedidos" alignment="BOTTOM_CENTER" layoutX="890.0" layoutY="172.0" mnemonicParsing="false" onAction="#openWinSix" prefHeight="200.0" prefWidth="168.0" style="-fx-background-color: white;" text="Pedidos" textFill="#08009e">
          <font>
             <Font name="Cambria Bold Italic" size="30.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="btnPasteles" alignment="BOTTOM_CENTER" layoutX="601.0" layoutY="173.0" mnemonicParsing="false" onAction="#OpenPasteles" prefHeight="195.0" prefWidth="174.0" style="-fx-background-color: white;" text="Pasteles" textFill="#08009e">
+      <Button fx:id="btnPasteles" alignment="BOTTOM_CENTER" layoutX="601.0" layoutY="173.0" mnemonicParsing="false" onAction="#openWinFive" prefHeight="195.0" prefWidth="174.0" style="-fx-background-color: white;" text="Pasteles" textFill="#08009e">
          <font>
             <Font name="Cambria Bold Italic" size="30.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="btnClientes" alignment="BOTTOM_CENTER" layoutX="311.0" layoutY="187.0" mnemonicParsing="false" onAction="#openClientes" prefHeight="186.0" prefWidth="174.0" style="-fx-background-color: white;" text="Clientes" textFill="#08009e">
+      <Button fx:id="btnClientes" alignment="BOTTOM_CENTER" layoutX="311.0" layoutY="187.0" mnemonicParsing="false" onAction="#openWinFor" prefHeight="186.0" prefWidth="174.0" style="-fx-background-color: white;" text="Clientes" textFill="#08009e">
          <font>
             <Font name="Cambria Bold Italic" size="30.0" />
          </font>

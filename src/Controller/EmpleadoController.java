@@ -12,8 +12,17 @@ import javafx.scene.Node;
 
 
 public class EmpleadoController extends UtilitariaNavEmpleado implements Initializable {
-
+	@FXML
+	private MenuButton menuopciones;
+	private Stage primaryStage;
 	
+	
+	
+	
+	public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
 
 	@FXML
 	void openEstadoPedido(ActionEvent event) {
@@ -23,7 +32,7 @@ public class EmpleadoController extends UtilitariaNavEmpleado implements Initial
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+	
 	}
 
 }

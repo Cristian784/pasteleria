@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.cell.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1182.0" style="-fx-background-color: A9D9FC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GraficasController">
+   <children>
+      <Pane layoutX="35.0" layoutY="61.0" prefHeight="525.0" prefWidth="1128.0" style="-fx-background-color: FFF8F8;">
+         <children>
+            <Text layoutX="54.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mensuales" textAlignment="CENTER" wrappingWidth="223.13671875">
+               <font>
+                  <Font name="Zilla Slab" size="28.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="52.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="66.0" layoutY="188.0">
+               <image>
+                  <Image url="@../../Img/rett.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <Button layoutX="550.0" layoutY="6.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="113.0" style="-fx-background-color: F58686;" text="Menu">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Button>
+      <Text layoutX="379.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reporte de Ventas " textAlignment="CENTER" wrappingWidth="486.13671875">
+         <font>
+            <Font name="Zilla Slab" size="28.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

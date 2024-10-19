@@ -13,14 +13,31 @@ import javafx.beans.property.StringProperty;
 
 public class Ventas {
 	private IntegerProperty folio;
+	private String productos2;
 	private StringProperty productos;
+	private int cantidadVendida2;
 	private IntegerProperty cantidadVendida;
 	private FloatProperty subtotal;
 	private FloatProperty total;
-	private StringProperty fechaDeVenta;
+	private StringProperty fechaDeVenta;	
+	 private StringProperty codigo;
+	  private StringProperty empleadoVenta;
 	private StringProperty Codigodebarras;
 	private StringProperty Categorias;
 
+	
+	
+	public Ventas(int folio, int cantidadVendida, float subtotal, float total, String fechaVenta, String productos, String codigo, String empleadoVenta) {
+        super();
+        this.folio = new SimpleIntegerProperty(folio);
+        this.cantidadVendida = new SimpleIntegerProperty(cantidadVendida);
+        this.subtotal = new SimpleFloatProperty(subtotal);
+        this.total = new SimpleFloatProperty(total);
+        this.fechaDeVenta = new SimpleStringProperty(fechaVenta);
+        this.productos = new SimpleStringProperty(productos);
+        this.codigo = new SimpleStringProperty(codigo);
+        this.empleadoVenta = new SimpleStringProperty(empleadoVenta);
+    }
 	public Ventas(int folio, int cantidadVendida, float subtotal, float total, String fechaVenta, String productos) {
 		super();
 		this.folio = new SimpleIntegerProperty(folio);
@@ -31,17 +48,53 @@ public class Ventas {
 		this.productos = new SimpleStringProperty(productos);
 	}
 	
-	public Ventas(int folio, int cantidadVendida, float subtotal, float total, String fechaVenta, 
-			String productos,String CodigodeBarras,String Categorias) {
+	
+	
+	public Ventas( int cantidadVendida2, String productos2) {
 		super();
-		this.folio = new SimpleIntegerProperty(folio);
-		this.cantidadVendida = new SimpleIntegerProperty(cantidadVendida);
-		this.subtotal = new SimpleFloatProperty(subtotal);
-		this.total = new SimpleFloatProperty(total);
-		this.fechaDeVenta = new SimpleStringProperty(fechaVenta);
-		this.productos = new SimpleStringProperty(productos);
-		this.Codigodebarras = new SimpleStringProperty(CodigodeBarras);
-		this.Categorias= new SimpleStringProperty(Categorias);
+		
+		this.cantidadVendida = cantidadVendida;
+		
+		this.productos = productos;
+		
+	}
+	
+	
+	
+	
+	// Getters y Setters para las nuevas propiedades
+
+    public StringProperty getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo.set(codigo);
+    }
+
+    public StringProperty getEmpleadoVenta() {
+        return empleadoVenta;
+    }
+
+    public void setEmpleadoVenta(String empleadoVenta) {
+        this.empleadoVenta.set(empleadoVenta);
+    }
+
+
+	public String getProductos2() {
+		return productos2;
+	}
+
+	public void setProductos2(String productos2) {
+		this.productos2 = productos2;
+	}
+
+	public int getCantidadVendida2() {
+		return cantidadVendida2;
+	}
+
+	public void setCantidadVendida2(int cantidadVendida2) {
+		this.cantidadVendida2 = cantidadVendida2;
 	}
 
 	public StringProperty getCodigodebarras() {
@@ -112,6 +165,12 @@ public class Ventas {
 		this.productos = productos;
 	}
 
+	
+	
+	
+	
+	
+	
 		public static boolean validarCampos(String folioVentaText, String cantidadText, String subtotalText,
 				String totalText,
 				String fechaVenta, String productos) {

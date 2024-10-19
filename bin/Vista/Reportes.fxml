@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
@@ -9,13 +11,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.cell.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1182.0" 
-style="-fx-background-color: A9D9FC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
-fx:controller="Controller.GraficasController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1182.0" style="-fx-background-color: A9D9FC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ReporteController">
    <children>
       <Pane layoutX="41.0" layoutY="61.0" prefHeight="529.0" prefWidth="540.0" style="-fx-background-color: FFF8F8;">
          <children>
-            <ImageView fitHeight="188.0" fitWidth="320.0" layoutX="157.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="btnVentaEmpleado" layoutX="122.0" layoutY="47.0" mnemonicParsing="false" prefHeight="194.0" prefWidth="291.0" text="Button" visible="false" />
+            <ImageView fitHeight="188.0" fitWidth="183.0" layoutX="164.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Img/image%2011.png" />
                </image>
@@ -38,7 +39,8 @@ fx:controller="Controller.GraficasController">
          </children></Pane>
       <Pane layoutX="623.0" layoutY="61.0" prefHeight="525.0" prefWidth="540.0" style="-fx-background-color: FFF8F8;">
          <children>
-            <ImageView fitHeight="140.0" fitWidth="188.0" layoutX="207.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="btnDiarias" layoutX="73.0" layoutY="79.0" mnemonicParsing="false" onAction="#openReportesDeVentas" opacity="0.0" prefHeight="179.0" prefWidth="384.0" />
+            <ImageView fx:id="btnMenu1" fitHeight="140.0" fitWidth="188.0" layoutX="214.0" layoutY="98.0" onDragDetected="#openReportesDeVentas" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Img/image%2010.png" />
                </image>
@@ -53,13 +55,13 @@ fx:controller="Controller.GraficasController">
                   <Font name="Zilla Slab" size="28.0" />
                </font>
             </Text>
-            <ImageView fitHeight="140.0" fitWidth="188.0" layoutX="207.0" layoutY="335.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="179.0" fitWidth="183.0" layoutX="207.0" layoutY="335.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Img/image%2013.png" />
                </image>
             </ImageView>
          </children></Pane>
-      <Button layoutX="550.0" layoutY="6.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="113.0" style="-fx-background-color: F58686;" text="Menu">
+      <Button fx:id="btnMenu" layoutX="550.0" layoutY="6.0" mnemonicParsing="false" onAction="#openWintwo" prefHeight="36.0" prefWidth="113.0" style="-fx-background-color: F58686;" text="Menu">
          <font>
             <Font size="21.0" />
          </font>

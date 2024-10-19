@@ -36,7 +36,8 @@ public class SampleController2 extends UtilitariaNavegabilidad implements Initia
 
 	@FXML
     private TextField TextFieldFH;
-
+	@FXML
+    private Button btnReporte;
 	@FXML
     private Button btnHoraFecha;
 	
@@ -75,28 +76,12 @@ public class SampleController2 extends UtilitariaNavegabilidad implements Initia
 
     @FXML
     private MenuButton menuopciones;
-    
-    @FXML
-    void openWinOne(ActionEvent event) {
-     
-            Pane.MostrarPane(event, "/Vista/Sample.fxml");
-    }
-    
+   
 
-    @FXML
-    void cambiarVista(ActionEvent event) {
-    
-            Pane.MostrarPane(event, "/Vista/Sample2Noc.fxml");
-
-            
-    }
+   
 
 
     
-
-    public void closeWindows(ActionEvent event) {
-    	Pane.MostrarPane(event, "/Vista/Sample.fxml");
-    }
 
     
    /* public void RegistroSig(ActionEvent event) {
@@ -120,67 +105,15 @@ public class SampleController2 extends UtilitariaNavegabilidad implements Initia
 
     }*/    
     
-    @FXML
-    void openCaja(ActionEvent event) {
-    	
-            Pane.MostrarPane(event,"/Vista/Caja.fxml");
-    }
+   
+  
 
-    @FXML
-    void openCatalogos(ActionEvent event) {
-    	
-            Pane.MostrarPane(event,"/Vista/Pedido2.fxml");
+  
 
-    }
-
-    @FXML
-    void openCategorias(ActionEvent event) {
-    
-    	
-        Pane.MostrarPane(event,"/Vista/Categorias.fxml");
-    }
-
-    @FXML
-    void openClientes(ActionEvent event) {
-      
-                Pane.MostrarPane(event,"/Vista/Cliente.fxml");
-    }
-
-    @FXML
-    void openPedidos(ActionEvent event) {
     
 
-            Pane.MostrarPane(event,"/Vista/Pedido.fxml");
-
-    }
-
-    @FXML
-    void openUsuarios(ActionEvent event) {
-
-    }
-
-    @FXML
-    void openVentas(ActionEvent event) {
     
 
-            Pane.MostrarPane(event,"/Vista/Ventas.fxml");
-
-
-    }
-
-    @FXML
-    void openVentasPastel(ActionEvent event) {
-    	
-            Pane.MostrarPane(event,"/Vista/ventas_pasteles.fxml");
-
-    }
-    
-    @FXML
-    void OpenPasteles(ActionEvent event) {
-    	
-            Pane.MostrarPane(event,"/Vista/Principal.fxml");
-
-    }
     
     @FXML
  // Método para mostrar la fecha y hora actual en el TextField

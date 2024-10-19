@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.cell.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1182.0" style="-fx-background-color: A9D9FC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GraficasController">
+   <children>
+      <Pane layoutX="35.0" layoutY="61.0" prefHeight="525.0" prefWidth="1128.0" style="-fx-background-color: FFF8F8;">
+         <children>
+            <LineChart layoutX="29.0" layoutY="78.0" prefHeight="400.0" prefWidth="802.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <Text layoutX="861.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descargar reporte" textAlignment="CENTER" wrappingWidth="223.13671875">
+               <font>
+                  <Font name="Zilla Slab" size="28.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="197.0" fitWidth="200.0" layoutX="873.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/ProyectoPOO/src/Img/Reporte.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <Button layoutX="550.0" layoutY="6.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="113.0" style="-fx-background-color: F58686;" text="Menu">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Button>
+      <Text layoutX="379.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reporte de Ventas por Empleado" textAlignment="CENTER" wrappingWidth="486.13671875">
+         <font>
+            <Font name="Zilla Slab" size="28.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

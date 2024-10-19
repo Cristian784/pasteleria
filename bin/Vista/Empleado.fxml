@@ -22,7 +22,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="725.0" prefWidth="1380.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EmpleadoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="725.0" prefWidth="1380.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EmpleadoController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffcdf6" height="49.0" stroke="#ffdef1" strokeType="INSIDE" width="1342.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffcdf6" height="122.0" layoutX="-1.0" layoutY="613.0" stroke="#ffdef1" strokeType="INSIDE" width="1392.0" />
@@ -72,8 +72,8 @@
             <Font name="System Bold" size="22.0" />
          </font>
          <items>
-            <MenuItem fx:id="itemNocturno" mnemonicParsing="false" onAction="#cambiarVista" text="Modo nocturno 🌙" />
-            <MenuItem fx:id="itemCerrar" mnemonicParsing="false" onAction="#openWinOne" text="Cerrar sesión  &lt;-" />
+                 <MenuItem fx:id="itemNocturno" mnemonicParsing="false" onAction="#cambiarVista" text="Modo nocturno 🌙" />
+            <MenuItem fx:id="itemCerrar" mnemonicParsing="false" onAction="#CerrarMenu" text="Cerrar sesión  &lt;-" />
          </items>
       </MenuButton>
       <Button fx:id="btnEstadoPedido" alignment="BOTTOM_CENTER" layoutX="905.0" layoutY="269.0" mnemonicParsing="false" onAction="#openEstadoPedido" prefHeight="264.0" prefWidth="285.0" style="-fx-background-color: white;" text="Estado del Pedido" textAlignment="CENTER" textFill="#321790">
@@ -102,4 +102,4 @@
       </TextField>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#8a8a8a" height="46.0" layoutX="1078.0" layoutY="662.0" opacity="0.35" stroke="#8a8a8a" strokeType="INSIDE" width="275.0" />
    </children>
-</Pane>
+</AnchorPane>

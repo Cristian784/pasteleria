@@ -38,7 +38,8 @@ public class Ventanas {
 
 	            // Show the scene containing the root layout.
 	            Scene scene = new Scene(root);
-	            primaryStage.setFullScreen(true); // este sirve para poder hacer que se muestre en oantalla completa la ventana 
+	            
+	           // primaryStage.setFullScreen(true); // este sirve para poder hacer que se muestre en oantalla completa la ventana 
 	            primaryStage.setScene(scene);
 	            primaryStage.show();
 	            
@@ -125,6 +126,26 @@ public class Ventanas {
       
       
       }
+      
+      public void mostrarVentanaDesdeMenu(Stage currentStage, String fxmlPath) {
+    	    try {	
+    	        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+    	        Parent root = loader.load();
+    	        Stage primaryStage = new Stage();
+
+    	        // Show the scene containing the root layout.
+    	        Scene scene = new Scene(root);
+    	        primaryStage.setScene(scene);
+    	        primaryStage.show();
+    	        
+    	        // Cierra la ventana actual
+    	        currentStage.close();
+    	    } catch (IOException e) {
+    	        System.out.println(e.getMessage());
+    	    }
+    	}
+
+      
      
 
 }

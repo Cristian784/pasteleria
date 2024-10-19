@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.cell.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1182.0" style="-fx-background-color: #A9D9FC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerVentas.VentasController">
+   <children>
+      <Pane layoutX="43.0" layoutY="28.0" prefHeight="584.0" prefWidth="1128.0" style="-fx-background-color: #FFF8F8;">
+         <children>
+            <Text layoutX="466.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Diarias" textAlignment="CENTER" wrappingWidth="223.13671875">
+               <font>
+                  <Font name="Zilla Slab" size="28.0" />
+               </font>
+            </Text>
+            <TableView fx:id="tblVentas" layoutX="36.0" layoutY="139.0" prefHeight="200.0" prefWidth="902.0">
+              <columns>
+                <TableColumn fx:id="colFolio" prefWidth="96.0" text="Folio" />
+                <TableColumn fx:id="colCantidadVendida" prefWidth="103.0" text="Cantidad " />
+                  <TableColumn fx:id="colSubtotal" prefWidth="103.0" text="Sub total" />
+                  <TableColumn fx:id="colTotal" prefWidth="103.0" text="Total" />
+                  <TableColumn fx:id="colFechaDeVenta" prefWidth="116.0" text="Fecha de venta" />
+                  <TableColumn fx:id="colProductos" prefWidth="380.0" text="Productos" />
+              </columns>
+            </TableView>
+            <Button fx:id="btnImprimir" layoutX="966.0" layoutY="233.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Imprimir" />
+            <AreaChart fx:id="areaChart" layoutX="36.0" layoutY="360.0" prefHeight="200.0" prefWidth="902.0">
+              <xAxis>
+                <CategoryAxis label="Productos" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis label="Cantidad Vendida" />
+              </yAxis>
+            </AreaChart>
+         </children></Pane>
+      <Button fx:id="btnMenu" layoutX="550.0" layoutY="6.0" mnemonicParsing="false" onAction="#openWintwo" prefHeight="36.0" prefWidth="113.0" style="-fx-background-color: #F58686;" text="Menu">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Button>
+      <Text layoutX="379.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reporte de Ventas " textAlignment="CENTER" wrappingWidth="486.13671875">
+         <font>
+            <Font name="Zilla Slab" size="28.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
+

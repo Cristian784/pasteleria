@@ -2,7 +2,6 @@ package Controller;
 
 import Model.Ventas;
 import javafx.scene.control.TextField;
-
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.IntegerStringConverter;
@@ -11,6 +10,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -20,305 +23,272 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import DAO.VentaDAO;
 import Factory.ConnectionFactory;
 
 public class VentasController extends UtilitariaNavegabilidad implements Initializable {
 
-	@FXML
-	TableView<Ventas> tblVentas;
+    @FXML
+    TableView<Ventas> tblVentas;
 
-	@FXML
-	private TextField txtCantidadVendida;
-	@FXML
-	private TextField txtSubtotal;
-	@FXML
-	private TextField txtTotal;
-	@FXML
-	private TextField txtFechaDeVenta;
-	@FXML
-	private TextField txtProductos;
+    @FXML
+    private TextField txtCantidadVendida;
+    @FXML
+    private TextField txtSubtotal;
+    @FXML
+    private TextField txtTotal;
+    @FXML
+    private TextField txtFechaDeVenta;
+    @FXML
+    private TextField txtProductos;
+    @FXML
+    private TextField txtCodigo;
+    @FXML
+    private TextField txtEmpleadoVenta;
+    @FXML
+    private TextField txtFolio;
+    @FXML
+    private TextField TxtBusqueda;
 
-	@FXML
-	TableColumn<Ventas, Integer> colFolio;
-	@FXML
-	TableColumn<Ventas, Integer> colCantidadVendida;
-	@FXML
-	TableColumn<Ventas, Float> colSubtotal;
-	@FXML
-	TableColumn<Ventas, Float> colTotal;
-	@FXML
-	TableColumn<Ventas, String> colFechaDeVenta;
-	@FXML
-	TableColumn<Ventas, String> colProductos;
+    @FXML
+    TableColumn<Ventas, Integer> colFolio;
+    @FXML
+    TableColumn<Ventas, Integer> colCantidadVendida;
+    @FXML
+    TableColumn<Ventas, Float> colSubtotal;
+    @FXML
+    TableColumn<Ventas, Float> colTotal;
+    @FXML
+    TableColumn<Ventas, String> colFechaDeVenta;
+    @FXML
+    TableColumn<Ventas, String> colProductos;
+    @FXML
+    TableColumn<Ventas, String> colCodigo;
+    @FXML
+    TableColumn<Ventas, String> colEmpleadoVenta;
+    
+    @FXML
+    private AreaChart<String, Number> areaChart;
 
-	private ObservableList<Ventas> listaVentas;
+    private ObservableList<Ventas> listaVentas;
 
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		listaVentas = FXCollections.observableArrayList();
-
-		try {
-
-			ResultSet resVentas = ConnectionFactory.executeQuery("SELECT * FROM ventas");// devuelve un objeto
-
-			// aquí se ingresan los nombres de los campos de la bd
-			while (resVentas.next()) {
-				listaVentas.add(new Ventas(
-						resVentas.getInt("Folio"),
-						resVentas.getInt("CantidadVendida"),
-						resVentas.getFloat("Subtotal"),
-						resVentas.getFloat("Total"),
-						resVentas.getString("FechaDeVenta"),
-						resVentas.getString("Productos")));
-			}
-		} catch (Exception ex) {
-			System.err.println("ERROR: " + ex.getMessage());
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        listaVentas = FXCollections.observableArrayList();
+        tblVentas.setEditable(true);
+        cargarColumnasTabla();
+        try {
+			cargarDatosTabla();
+			// Ejemplo de datos para el AreaChart
+	        XYChart.Series<String, Number> series = new XYChart.Series<>();
+	        series.setName("Ventas Diarias");
+	        series.getData().add(new XYChart.Data<>("Producto 1", 30));
+	        series.getData().add(new XYChart.Data<>("Producto 2", 20));
+	        series.getData().add(new XYChart.Data<>("Producto 3", 50));
+	        areaChart.getData().add(series);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+        try {
+            cargarVentasDelDiaActual();
+         // Ejemplo de datos para el AreaChart
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Ventas Diarias");
+            series.getData().add(new XYChart.Data<>("Producto 1", 30));
+            series.getData().add(new XYChart.Data<>("Producto 2", 20));
+            series.getData().add(new XYChart.Data<>("Producto 3", 50));
+            areaChart.getData().add(series);
+        } catch (Exception e) {
+            mostrarAlerta("Error", "No se pudo cargar las ventas del día actual.");
+        }
+    }
 
-		tblVentas.setEditable(true);
-		colFolio.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-		colProductos.setCellFactory(TextFieldTableCell.forTableColumn());
-		colCantidadVendida.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-		colSubtotal.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
-		colTotal.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
-		colFechaDeVenta.setCellFactory(TextFieldTableCell.forTableColumn());
+    private void cargarColumnasTabla() {
+        colFolio.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        colCantidadVendida.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        colSubtotal.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+        colTotal.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+        colFechaDeVenta.setCellFactory(TextFieldTableCell.forTableColumn());
+        colEmpleadoVenta.setCellFactory(TextFieldTableCell.forTableColumn());
+        colCodigo.setCellFactory(TextFieldTableCell.forTableColumn());
+        colProductos.setCellFactory(TextFieldTableCell.forTableColumn());
 
-		// establesco y muestro los datos de mi base datos en la pantalla de fx
-		colFolio.setCellValueFactory(dato -> dato.getValue().getFolio().asObject());
-		colProductos.setCellValueFactory(dato -> dato.getValue().getProductos());
-		colCantidadVendida.setCellValueFactory(dato -> dato.getValue().getCantidadVendida().asObject());
-		colSubtotal.setCellValueFactory(dato -> dato.getValue().getSubtotal().asObject());
-		colTotal.setCellValueFactory(dato -> dato.getValue().getTotal().asObject());
-		colFechaDeVenta.setCellValueFactory(dato -> dato.getValue().getFechaDeVenta());
+        colFolio.setCellValueFactory(dato -> dato.getValue().getFolio().asObject());
+        colCantidadVendida.setCellValueFactory(dato -> dato.getValue().getCantidadVendida().asObject());
+        colSubtotal.setCellValueFactory(dato -> dato.getValue().getSubtotal().asObject());
+        colTotal.setCellValueFactory(dato -> dato.getValue().getTotal().asObject());
+        colFechaDeVenta.setCellValueFactory(dato -> dato.getValue().getFechaDeVenta());
+        colEmpleadoVenta.setCellValueFactory(dato -> dato.getValue().getEmpleadoVenta());
+        colCodigo.setCellValueFactory(dato -> dato.getValue().getCodigo());
+        colProductos.setCellValueFactory(dato -> dato.getValue().getProductos());
+    }
 
-		tblVentas.setItems(listaVentas);
+    private void cargarDatosTabla() throws Exception {
+        try {
+            ResultSet resVentas = ConnectionFactory.executeQuery("SELECT * FROM ventas");
+            while (resVentas.next()) {
+                listaVentas.add(new Ventas(
+                        resVentas.getInt("Folio"),
+                        resVentas.getInt("CantidadVendida"),
+                        resVentas.getFloat("Subtotal"),
+                        resVentas.getFloat("Total"),
+                        resVentas.getString("FechaDeVenta"),
+                        resVentas.getString("Users_FK"),
+                        resVentas.getString("Codigo_Producto"),
+                        resVentas.getString("Productos")));
+            }
+            tblVentas.setItems(listaVentas);
+        } catch (SQLException ex) {
+            mostrarAlerta("Error", "No se pudo cargar los datos de la base de datos: " + ex.getMessage());
+        }
+    }
 
-	}
+    @FXML
+    private void guardarVenta(ActionEvent event) throws Exception {
+        if (validarCampos()) {
+            Ventas venta = new Ventas(
+                    Integer.parseInt(txtFolio.getText()),
+                    Integer.parseInt(txtCantidadVendida.getText()),
+                    Float.parseFloat(txtSubtotal.getText()),
+                    Float.parseFloat(txtTotal.getText()),
+                    txtFechaDeVenta.getText(),
+                    txtEmpleadoVenta.getText(),
+                    txtCodigo.getText(),
+                    txtProductos.getText());
 
-	@FXML
-	private void guardarVenta(ActionEvent event) throws Exception {
-		if (validarCampos()) {
-			int folio = Integer.parseInt(txtFolio.getText());
-			int cantidadVendida = Integer.parseInt(txtCantidadVendida.getText());
-			float subtotal = Float.parseFloat(txtSubtotal.getText());
-			float total = Float.parseFloat(txtTotal.getText());
-			String fechaVenta = txtFechaDeVenta.getText();
-			String productos = txtProductos.getText();
+            listaVentas.add(venta);
 
-			Ventas venta = new Ventas(folio, cantidadVendida, subtotal, total, fechaVenta, productos);
-			try {
-				String MySql = "INSERT INTO ventas (Folio, CantidadVendida, Subtotal, Total, FechaDeVenta, Productos) VALUES (?, ?, ?, ?, ?, ?)";
-				PreparedStatement insertStatement = ConnectionFactory.getConnection().prepareStatement(MySql);
-				insertStatement.setInt(1, venta.getFolio().get());
-				insertStatement.setInt(2, venta.getCantidadVendida().get());
-				insertStatement.setFloat(3, venta.getSubtotal().get());
-				insertStatement.setFloat(4, venta.getTotal().get());
-				insertStatement.setString(5, venta.getFechaDeVenta().get());
-				insertStatement.setString(6, venta.getProductos().get());
+            try {
+                String query = "INSERT INTO ventas (Folio, CantidadVendida, Subtotal, Total, FechaDeVenta, Users_FK, Codigo_Producto, Productos) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(query)) {
+                    ps.setInt(1, venta.getFolio().get());
+                    ps.setInt(2, venta.getCantidadVendida().get());
+                    ps.setFloat(3, venta.getSubtotal().get());
+                    ps.setFloat(4, venta.getTotal().get());
+                    ps.setString(5, venta.getFechaDeVenta().get());
+                    ps.setString(6, venta.getEmpleadoVenta().get());
+                    ps.setString(7, venta.getCodigo().get());
+                    ps.setString(8, venta.getProductos().get());
+                    ps.executeUpdate();
+                }
+                mostrarAlerta("Éxito", "Registro guardado correctamente en la base de datos.");
+            } catch (SQLException ex) {
+                mostrarAlerta("Error", "Hubo un error al guardar el registro: " + ex.getMessage());
+            }
+        } else {
+            mostrarAlerta("Advertencia", "Por favor, complete todos los campos.");
+        }
+    }
 
-				int rowsAffected = insertStatement.executeUpdate();
-				// listaVentas.add(venta);
-				// insertarVenta(venta);
+    @FXML
+    private void eliminarVenta() throws Exception {
+        Ventas selectedVenta = tblVentas.getSelectionModel().getSelectedItem();
+        if (selectedVenta != null) {
+            listaVentas.remove(selectedVenta);
+            try {
+                String query = "DELETE FROM ventas WHERE Folio = ?";
+                try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(query)) {
+                    ps.setInt(1, selectedVenta.getFolio().get());
+                    ps.executeUpdate();
+                }
+                mostrarAlerta("Éxito", "Registro eliminado correctamente de la base de datos.");
+            } catch (SQLException ex) {
+                mostrarAlerta("Error", "Hubo un error al eliminar el registro: " + ex.getMessage());
+            }
+        } else {
+            mostrarAlerta("Advertencia", "Por favor, seleccione una venta para eliminar.");
+        }
+    }
 
-				if (rowsAffected > 0) {
-					UtilitariaNavegabilidad.mostrarAlerta("Éxito", "El registro se ha guardado correctamente.");
-					listaVentas.add(venta);
-					limpiarCampos();
-				} else {
-					UtilitariaNavegabilidad.mostrarAlerta("Error", "No se pudo guardar el registro.");
-				}
-			} catch (SQLException e) {
-				UtilitariaNavegabilidad.mostrarAlerta("Error", "Ocurrió un error al guardar el registro: " + e.getMessage());
-			}
-		}
-	}
+    @FXML
+    private void actualizarVenta() throws Exception {
+        Ventas selectedVenta = tblVentas.getSelectionModel().getSelectedItem();
+        if (selectedVenta != null) {
+            try {
+                String query = "UPDATE ventas SET CantidadVendida = ?, Subtotal = ?, Total = ?, FechaDeVenta = ?, Productos = ? WHERE Folio = ?";
+                try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(query)) {
+                    ps.setInt(1, selectedVenta.getCantidadVendida().get());
+                    ps.setFloat(2, selectedVenta.getSubtotal().get());
+                    ps.setFloat(3, selectedVenta.getTotal().get());
+                    ps.setString(4, selectedVenta.getFechaDeVenta().get());
+                    ps.setString(5, selectedVenta.getProductos().get());
+                    ps.setInt(6, selectedVenta.getFolio().get());
+                    ps.executeUpdate();
+                }
+                mostrarAlerta("Éxito", "Registro actualizado correctamente en la base de datos.");
+            } catch (SQLException ex) {
+                mostrarAlerta("Error", "Hubo un error al actualizar el registro: " + ex.getMessage());
+            }
+        } else {
+            mostrarAlerta("Advertencia", "Por favor, seleccione una venta para actualizar.");
+        }
+    }
 
-	private void limpiarCampos() {
-		txtFolio.clear();
-		txtCantidadVendida.clear();
-		txtSubtotal.clear();
-		txtTotal.clear();
-		txtFechaDeVenta.clear();
-		txtProductos.clear();
-	}
+    @FXML
+    private void buscarVenta(ActionEvent event) throws Exception {
+        String folioVenta = TxtBusqueda.getText();
+        if (!folioVenta.isEmpty()) {
+            listaVentas.clear();
+            try {
+                String query = "SELECT * FROM ventas WHERE Folio = ?";
+                try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(query)) {
+                    ps.setString(1, folioVenta);
+                    ResultSet resVentas = ps.executeQuery();
+                    while (resVentas.next()) {
+                        listaVentas.add(new Ventas(
+                                resVentas.getInt("Folio"),
+                                resVentas.getInt("CantidadVendida"),
+                                resVentas.getFloat("Subtotal"),
+                                resVentas.getFloat("Total"),
+                                resVentas.getString("FechaDeVenta"),
+                                resVentas.getString("Users_FK"),
+                                resVentas.getString("Codigo_Producto"),
+                                resVentas.getString("Productos")));
+                    }
+                    tblVentas.setItems(listaVentas);
+                }
+            } catch (SQLException ex) {
+                mostrarAlerta("Error", "Hubo un error al buscar el registro: " + ex.getMessage());
+            }
+        } else {
+            cargarDatosTabla();
+        }
+    }
 
-	private boolean validarCampos() {
-		return !txtFolio.getText().isEmpty()
-				&& !txtProductos.getText().isEmpty()
-				&& !txtCantidadVendida.getText().isEmpty()
-				&& !txtSubtotal.getText().isEmpty()
-				&& !txtTotal.getText().isEmpty()
-				&& !txtFechaDeVenta.getText().isEmpty();
-	}
-
-	@FXML
-	private void eliminarVenta(ActionEvent event) throws Exception {// el throws Exception siempre se ocupa para las
-																	// conexiones
-		Ventas selectedProducto = tblVentas.getSelectionModel().getSelectedItem();
-
-		if (selectedProducto == null) {
-			UtilitariaNavegabilidad.mostrarAlerta("Error", "No se ha seleccionado ningún registro.");
-			return;
-		}
-
-		int folioVenta = selectedProducto.getFolio().get();
-
-		try {
-			// tiene que ser en ese orden ya que es un modelo relacional
-			// Eliminar los registros asociados en la tabla "ventas_pasteles" primero
-			String deleteVentasSql = "DELETE FROM ventas_pasteles WHERE folioVenta_FK = ?";
-			PreparedStatement deleteVentasStatement = ConnectionFactory.getConnection()
-					.prepareStatement(deleteVentasSql);
-			deleteVentasStatement.setInt(1, folioVenta);
-			deleteVentasStatement.executeUpdate();
-
-			// Eliminar el registro de la tabla "ventas"
-			String deletePastelesSql = "DELETE FROM ventas WHERE Folio = ?";
-			PreparedStatement deletePastelesStatement = ConnectionFactory.getConnection()
-					.prepareStatement(deletePastelesSql);
-			deletePastelesStatement.setInt(1, folioVenta);
-			int rowsAffected = deletePastelesStatement.executeUpdate();
-
-			// rowsAffected se utiliza para almacenar el número de filas afectadas por una
-			// operación de eliminación en una base de datos.
-			// se utiliza para verificar si la eliminación del registro de la tabla
-			if (rowsAffected > 0) {
-				UtilitariaNavegabilidad.mostrarAlerta("Éxito", "El registro se ha eliminado correctamente.");
-				// quita la fila seleccionada
-				listaVentas.remove(selectedProducto);
-			} else {
-				UtilitariaNavegabilidad.mostrarAlerta("Error", "No se pudo eliminar el registro.");
-			}
-		} catch (SQLException e) {
-			UtilitariaNavegabilidad.mostrarAlerta("Error", "Ocurrió un error al eliminar el registro: " + e.getMessage());
-		}
-	}
-
-	@FXML
-	private void actualizarVenta() throws Exception {
-		Ventas selectedVentas = tblVentas.getSelectionModel().getSelectedItem();
-		if (selectedVentas != null) {
-			int folioVenta = selectedVentas.getFolio().get();
-			int cantidad = selectedVentas.getCantidadVendida().get();
-			double subtotal = selectedVentas.getSubtotal().get();
-			double total = selectedVentas.getTotal().get();
-			String fechaVenta = selectedVentas.getFechaDeVenta().get();
-			String productos = selectedVentas.getProductos().get();
-
-			if (!Ventas.validarCampos(String.valueOf(folioVenta), String.valueOf(cantidad), String.valueOf(subtotal),
-					String.valueOf(total), fechaVenta, productos)) {
-				return;
-			}
-
-			try {
-				Connection connection = ConnectionFactory.getConnection();
-				String updateQuery = "UPDATE ventas SET CantidadVendida = ?, Subtotal = ?, Total = ?, FechaDeVenta = ?, Productos = ? WHERE Folio = ?";
-				PreparedStatement statement = connection.prepareStatement(updateQuery);
-
-				statement.setInt(1, cantidad);
-				statement.setDouble(2, subtotal);
-				statement.setDouble(3, total);
-				statement.setString(4, fechaVenta);
-				statement.setString(5, productos);
-				statement.setInt(6, folioVenta);
-
-				int rowsUpdated = statement.executeUpdate();
-
-				if (rowsUpdated > 0) {
-					UtilitariaNavegabilidad.mostrarAlerta("Éxito", "Registro actualizado correctamente en la base de datos.");
-				} else {
-					UtilitariaNavegabilidad.mostrarAlerta("Error", "No se encontraron registros con los criterios proporcionados.");
-				}
-
-				statement.close();
-				connection.close();
-			} catch (SQLException e) {
-				UtilitariaNavegabilidad.mostrarAlerta("Error", "Error al actualizar el registro: " + e.getMessage());
-			}
-		} else {
-			UtilitariaNavegabilidad.mostrarAlerta("Error", "No se ha seleccionado ningún registro para actualizar.");
-		}
-	}
-
-	@FXML
-	private void buscarVenta(ActionEvent event) throws Exception {
-		String folioVenta = TxtBusqueda.getText();
-		if ( Ventas.validarCampoBusqueda(folioVenta)) {
-			try {
-				Connection connection = ConnectionFactory.getConnection();
-				String selectQuery = "SELECT * FROM ventas WHERE Folio = ?";
-				PreparedStatement statement = connection.prepareStatement(selectQuery);
-				statement.setString(1, folioVenta);
-
-				ResultSet resultSet = statement.executeQuery();
-				// Limpiar la tabla antes de mostrar los nuevos resultados
-				tblVentas.getItems().clear();
-
-				while (resultSet.next()) {
-					// Obtener los valores de cada columna del resultado de la consulta
-					int folioV = resultSet.getInt("Folio");
-					int cantidad = resultSet.getInt("CantidadVendida");
-					float subtotal = resultSet.getFloat("Subtotal");
-					float total = resultSet.getFloat("Total");
-					String fechaVenta = resultSet.getString("FechaDeVenta");
-					String productos = resultSet.getString("Productos");
-
-					// Crear el objeto Pedido con los valores obtenidos
-					Ventas nuevaVenta = new Ventas(folioV, cantidad, subtotal, total, fechaVenta, productos);
-
-					// Agregar el objeto Pedido a la tabla
-					tblVentas.getItems().add(nuevaVenta);
-				}
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} else {
-		
-			recargarTablaVentas();
-		}
-		
-		
-			
-			
-			
-		
-		
-		
-	}
-
-
-	private void recargarTablaVentas() throws Exception {
-		try {
-			Connection connection = ConnectionFactory.getConnection();
-			String selectQuery = "SELECT * FROM ventas";
-			// El Statement se utiliza para ejecutar la consulta SQL en la base de datos.
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(selectQuery);// epresenta el conjunto de resultados de la
-																		// consulta.
-
-			// Limpiar la tabla antes de mostrar los nuevos resultados
-			tblVentas.getItems().clear();
-
-			while (resultSet.next()) {
-				int folioV = resultSet.getInt("Folio");
-				int cantidad = resultSet.getInt("CantidadVendida");
-				float subtotal = resultSet.getFloat("Subtotal");
-				float total = resultSet.getFloat("Total");
-				String fechaVenta = resultSet.getString("FechaDeVenta");
-				String productos = resultSet.getString("Productos");
-
-				// Crear un nuevo objeto Pasteles con los valores obtenidos
-				Ventas nuevoProducto = new Ventas(folioV, cantidad, subtotal, total, fechaVenta, productos);
-
-				// Agregar el objeto Producto a la tabla
-				tblVentas.getItems().add(nuevoProducto);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
+    private void cargarVentasDelDiaActual() throws Exception {
+        VentaDAO ventaDAO = new VentaDAO();
+        try {
+            List<Ventas> ventas = ventaDAO.obtenerVentasDelDiaActual();
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Ventas del día actual");
+            for (Ventas venta : ventas) {
+                series.getData().add(new XYChart.Data<>(venta.getProductos().get(), venta.getCantidadVendida().get()));
+            }
+            areaChart.getData().add(series);
+        } catch (SQLException e) {
+            mostrarAlerta("Error", "No se pudo cargar las ventas del día actual.");
+        }
+    }
+/*
+    private void mostrarAlerta(String titulo, String contenido) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setContentText(contenido);
+        alert.showAndWait();
+    }
+*/
+    private boolean validarCampos() {
+        return !txtFolio.getText().isEmpty()
+                && !txtProductos.getText().isEmpty()
+                && !txtCantidadVendida.getText().isEmpty()
+                && !txtSubtotal.getText().isEmpty()
+                && !txtTotal.getText().isEmpty()
+                && !txtFechaDeVenta.getText().isEmpty()
+                && !txtEmpleadoVenta.getText().isEmpty()
+                && !txtCodigo.getText().isEmpty();
+    }
 }

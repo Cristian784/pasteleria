@@ -7,7 +7,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.cell.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1182.0" style="-fx-background-color: #ECF7DD;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FacturaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1182.0" style="-fx-background-color: #ECF7DD;" 
+xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FacturaController">
 
     <children>
         <TableView fx:id="tblVentas" editable="true" layoutX="176.0" layoutY="61.0" prefHeight="541.0" prefWidth="801.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="221.0" AnchorPane.topAnchor="61.0">
